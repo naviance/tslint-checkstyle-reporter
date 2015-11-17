@@ -10,7 +10,8 @@
   },
   "scripts": {
     "compile": "tsc -p .",
-    "testLint": "tslint test/index.ts"
+    "testLint": "tslint test/index.ts",
+    "jsonOutput": "tslint test/index.ts -s src -t xml"
   },
   "repository": {
     "type": "git",
