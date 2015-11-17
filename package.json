@@ -1,0 +1,25 @@
+{
+  "name": "tslint-checkstyle-reporter",
+  "version": "1.0.0",
+  "description": "A checkstyle reporter for TSLint",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "tslint": "^2.5.1",
+    "typescript": "^1.6.2"
+  },
+  "scripts": {
+    "compile": "tsc -p .",
+    "testLint": "tslint test/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/naviance/tslint-checkstyle-reporter.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/naviance/tslint-checkstyle-reporter/issues"
+  },
+  "homepage": "https://github.com/naviance/tslint-checkstyle-reporter#readme"
+}
