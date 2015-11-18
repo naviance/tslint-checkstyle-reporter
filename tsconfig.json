@@ -1,3 +1,10 @@
 {
-  "compilerOptions": { "target": "es5" }
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5"
+  },
+  "files": [
+    "test/index.ts",
+    "src/xmlFormatter.ts"
+  ]
 }
