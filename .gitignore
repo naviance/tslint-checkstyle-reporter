@@ -1,4 +1,7 @@
-node_modules/
-.idea
 npm-debug.log
+outputFile.txt
 *.js
+
+node_modules/
+
+.idea
