@@ -1,5 +1,5 @@
 npm-debug.log
-outputFile.txt
+output.xml
 *.js
 
 node_modules/
