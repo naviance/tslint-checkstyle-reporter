@@ -1,5 +1,6 @@
-/// <reference path="../node_modules/tslint/typings/typescriptServices.d.ts" />
-/// <reference path="../node_modules/tslint/lib/tslint.d.ts" />
+/// <reference path="../typings/node.d.ts" />
+import * as ts from "typescript";
+import * as Lint from "tslint/lib/lint";
 
 var xml = require('xml');
 
@@ -51,11 +52,11 @@ export class Formatter extends Lint.Formatters.AbstractFormatter {
         let failuresJSON = failures.map((failure: Lint.RuleFailure) => failure.toJson());
 
         failuresJSON.forEach((obj: jsonObj) => {
-            this.xmlObjFormat.file[0]._attr.name                 = obj.name;
-            this.xmlObjFormat.file[1].error[0]._attr.line        = obj.startPosition.line;
-            this.xmlObjFormat.file[1].error[0]._attr.column      = obj.startPosition.position;
-            this.xmlObjFormat.file[1].error[0]._attr.source      = obj.ruleName;
-            this.xmlObjFormat.file[1].error[0]._attr.message     = this.returnWithNoStrings(obj.failure);
+            this.xmlObjFormat.file[0]._attr.name             = obj.name;
+            this.xmlObjFormat.file[1].error[0]._attr.line    = obj.startPosition.line;
+            this.xmlObjFormat.file[1].error[0]._attr.column  = obj.startPosition.position;
+            this.xmlObjFormat.file[1].error[0]._attr.source  = obj.ruleName;
+            this.xmlObjFormat.file[1].error[0]._attr.message = this.returnWithNoStrings(obj.failure);
         });
 
         return xml(this.xmlObjFormat);
