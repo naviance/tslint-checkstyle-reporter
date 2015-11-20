@@ -5,13 +5,14 @@
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
-    "tslint": "^2.5.1",
-    "typescript": "^1.6.2"
+    "tslint": "^3.0.0",
+    "typescript": "^1.6.2",
+    "xml": "^1.0.0"
   },
   "scripts": {
     "compile": "tsc -p .",
-    "testLint": "tslint test/index.ts",
-    "jsonOutput": "tslint test/index.ts -s src -t xml"
+    "testLint": "tslint test/*.ts",
+    "output": "tslint test/*.ts -s src -t xml --out output.xml"
   },
   "repository": {
     "type": "git",
