@@ -4,22 +4,23 @@ import * as Lint from "tslint/lib/lint";
 
 var xml = require('xml');
 
-interface XmlObjectFormat {
-    file: [
-        { _attr: { name: string } },
-        { error: [
-            {_attr: {
-                line: string;
-                column: string;
-                message: string;
-                severity: string;
-                source: string;
-            }}
-        ]}
-    ];
+interface Attr {
+    _attr: {
+        line: string;
+        column: string;
+        message: string;
+        severity: string;
+        source: string;
+    }
 }
 
-interface jsonObj {
+interface TslintErrors { error: Attr[] }
+
+interface CheckstyleFileObject {
+    file: [ { _attr: { name: string } } ];
+}
+
+interface TslintXmlParams {
     name: string;
     startPosition: { line: string, position: string };
     ruleName: string;
@@ -27,38 +28,38 @@ interface jsonObj {
 }
 
 export class Formatter extends Lint.Formatters.AbstractFormatter {
-    xmlObjFormat: XmlObjectFormat = {
-        file: [
-            { _attr: { name: "" } },
-            {
-                error: [
-                    {
-                        _attr: {
-                            line: "",
-                            column: "",
-                            message: "",
-                            severity: "warning",
-                            source: ""
-                        }
-                    }
-                    ]
-            }
-            ]
-    };
+    returnWithNoStrings (value: string): string {
+        let regEx = /'/g;
+        if(value.match(regEx)) { return value.replace(regEx, ""); }
 
-    returnWithNoStrings (value: string): string { return value.replace(/'/g, ""); }
+        return value;
+    }
 
     public format(failures: Lint.RuleFailure[]): string {
         let failuresJSON = failures.map((failure: Lint.RuleFailure) => failure.toJson());
 
-        failuresJSON.forEach((obj: jsonObj) => {
-            this.xmlObjFormat.file[0]._attr.name             = obj.name;
-            this.xmlObjFormat.file[1].error[0]._attr.line    = obj.startPosition.line;
-            this.xmlObjFormat.file[1].error[0]._attr.column  = obj.startPosition.position;
-            this.xmlObjFormat.file[1].error[0]._attr.source  = obj.ruleName;
-            this.xmlObjFormat.file[1].error[0]._attr.message = this.returnWithNoStrings(obj.failure);
+        let checkstyleFileObject: CheckstyleFileObject = { file: [{ _attr: { name: "" }}] };
+
+        failuresJSON.forEach((obj: TslintXmlParams) => {
+            checkstyleFileObject.file[0]._attr.name = obj.name;
+
+            let err: TslintErrors = {
+                error: [
+                    {
+                        _attr: {
+                            line: obj.startPosition.line,
+                            column: obj.startPosition.position,
+                            message: this.returnWithNoStrings(obj.failure),
+                            severity: "warning",
+                            source: obj.ruleName,
+                        }
+                    }
+                ]
+            };
+
+            checkstyleFileObject.file.push(err);
         });
 
-        return xml(this.xmlObjFormat);
+        return xml(checkstyleFileObject);
     }
 }
