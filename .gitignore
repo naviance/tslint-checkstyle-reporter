@@ -1,6 +1,6 @@
 npm-debug.log
 output.xml
-*.js
+test/*.js
 
 node_modules/
 
