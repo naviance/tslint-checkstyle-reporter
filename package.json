@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "description": "A checkstyle reporter for TSLint",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "xml": "^1.0.0"
+  },
   "devDependencies": {
     "tslint": "^3.0.0",
-    "typescript": "^1.6.2",
-    "xml": "^1.0.0"
+    "typescript": "^1.6.2"
   },
   "scripts": {
     "compile": "tsc -p .",

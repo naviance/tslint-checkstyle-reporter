@@ -6,6 +6,6 @@
   "files": [
     "test/test1.ts",
     "test/test2.ts",
-    "src/checkstyleFormatter.ts"
+    "src/CheckstyleFormatter.ts"
   ]
 }
