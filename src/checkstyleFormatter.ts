@@ -2,7 +2,7 @@
 // TODO: add typings back in - https://github.com/palantir/tslint#writing-custom-formatters
 var xml = require('xml');
 
-export class Formatter {
+export class Checkstyle {
     removeSingleQuotes (value: string): string {
         let regEx = /'/g;
         if(value.match(regEx)) { return value.replace(regEx, ""); }
