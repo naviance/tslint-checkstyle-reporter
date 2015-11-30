@@ -1,17 +1,17 @@
 /// <reference path="../typings/node.d.ts" />
 // TODO: add typings back in - https://github.com/palantir/tslint#writing-custom-formatters
 var xml = require('xml');
-var Checkstyle = (function () {
-    function Checkstyle() {
+var Formatter = (function () {
+    function Formatter() {
     }
-    Checkstyle.prototype.removeSingleQuotes = function (value) {
+    Formatter.prototype.removeSingleQuotes = function (value) {
         var regEx = /'/g;
         if (value.match(regEx)) {
             return value.replace(regEx, "");
         }
         return value;
     };
-    Checkstyle.prototype.format = function (failures) {
+    Formatter.prototype.format = function (failures) {
         var _this = this;
         var failuresJSON = failures.map(function (failure) { return failure.toJson(); });
         var checkstyleFileObject = { file: [{ _attr: { name: "" } }] };
@@ -34,6 +34,6 @@ var Checkstyle = (function () {
         });
         return xml(checkstyleFileObject);
     };
-    return Checkstyle;
+    return Formatter;
 })();
-exports.Checkstyle = Checkstyle;
+exports.Formatter = Formatter;
