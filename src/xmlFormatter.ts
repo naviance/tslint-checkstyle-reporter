@@ -1,55 +1,29 @@
 /// <reference path="../typings/node.d.ts" />
-import * as ts from "typescript";
-import * as Lint from "tslint/lib/lint";
-
+// TODO: add typings back in - https://github.com/palantir/tslint#writing-custom-formatters
 var xml = require('xml');
 
-interface Attr {
-    _attr: {
-        line: string;
-        column: string;
-        message: string;
-        severity: string;
-        source: string;
-    }
-}
-
-interface TslintErrors { error: Attr[] }
-
-interface CheckstyleFileObject {
-    file: [ { _attr: { name: string } } ];
-}
-
-interface TslintXmlParams {
-    name: string;
-    startPosition: { line: string, position: string };
-    ruleName: string;
-    failure: string;
-}
-
-export class Formatter extends Lint.Formatters.AbstractFormatter {
-    returnWithNoStrings (value: string): string {
+export class Formatter {
+    removeSingleQuotes (value: string): string {
         let regEx = /'/g;
         if(value.match(regEx)) { return value.replace(regEx, ""); }
 
         return value;
     }
 
-    public format(failures: Lint.RuleFailure[]): string {
-        let failuresJSON = failures.map((failure: Lint.RuleFailure) => failure.toJson());
+    public format(failures): string {
+        let failuresJSON = failures.map((failure) => failure.toJson());
+        let checkstyleFileObject: any = { file: [{ _attr: { name: "" }}] };
 
-        let checkstyleFileObject: CheckstyleFileObject = { file: [{ _attr: { name: "" }}] };
-
-        failuresJSON.forEach((obj: TslintXmlParams) => {
+        failuresJSON.forEach((obj) => {
             checkstyleFileObject.file[0]._attr.name = obj.name;
 
-            let err: TslintErrors = {
+            let err = {
                 error: [
                     {
                         _attr: {
                             line: obj.startPosition.line,
                             column: obj.startPosition.position,
-                            message: this.returnWithNoStrings(obj.failure),
+                            message: this.removeSingleQuotes(obj.failure),
                             severity: "warning",
                             source: obj.ruleName,
                         }
@@ -60,6 +34,6 @@ export class Formatter extends Lint.Formatters.AbstractFormatter {
             checkstyleFileObject.file.push(err);
         });
 
-        return xml(checkstyleFileObject);
+        return xml(checkstyleFileObject) as string;
     }
 }
