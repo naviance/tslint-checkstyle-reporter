@@ -2,12 +2,12 @@
   "name": "tslint-checkstyle-reporter",
   "version": "1.0.0",
   "description": "A checkstyle reporter for TSLint",
-  "main": "index.js",
+  "main": "src/checkstyleFormatter.js",
   "dependencies": {
     "xml": "^1.0.0"
   },
   "devDependencies": {
-    "tslint": "^3.0.0",
+    "tslint": "^3.1.1",
     "typescript": "^1.6.2"
   },
   "scripts": {
